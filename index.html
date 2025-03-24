@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sleep Cycle Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <h1>Sleep Cycle Tracker</h1>
+    <p>Track your sleep patterns and improve your sleep quality!</p>
+  </header>
+
+  <!-- Input Section -->
+  <div class="input-container">
+    <h2>Enter Your Sleep Details</h2>
+    <form id="sleepForm">
+      <label for="bedtime">Bedtime:</label>
+      <input type="time" id="bedtime" required>
+
+      <label for="wakeupTime">Wake-up Time:</label>
+      <input type="time" id="wakeupTime" required>
+
+      <button type="submit" id="calculateButton">Calculate</button>
+    </form>
+  </div>
+
+  <!-- Results Section -->
+  <div id="results" class="results-container"></div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2025 Sleep Cycle Tracker. Built with love</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
