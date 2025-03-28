@@ -7,7 +7,7 @@ set -e
 
 # Variables
 PROJECT_DIR="/path/to/sleep-cycle-tracker"
-REPO_URL="https://github.com/yourusername/sleep-cycle-tracker.git"
+REPO_URL="https://github.com/Batonicarla/Sleep-Cycle-Tracker"
 SERVERS=("3.84.30.55" "52.90.62.59")
 LOAD_BALANCER="3.87.57.141"
 REMOTE_USER="ubuntu"
