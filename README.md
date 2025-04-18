@@ -1,5 +1,5 @@
 https://youtu.be/Jx74bb7eWIc                                                                                                                                                  
-                                                                                                                                                   Sleep Cycle Tracker                                                                                                                                                                  
+                                                                                                                                                                           Sleep Cycle Tracker                                                                                                                                                                  
 A web-based application designed to help users monitor and analyze their sleep patterns. Track sleep cycles, identify trends, and improve sleep quality through data-driven insights.
 Live Demo: https://batonicarla.github.io/Sleep-Cycle-Tracker/
 Features
