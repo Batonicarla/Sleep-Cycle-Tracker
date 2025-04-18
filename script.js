@@ -1,98 +1,68 @@
-// Event listener for form submission
-document.getElementById('sleepForm').addEventListener('submit', function (event) {
-    event.preventDefault(); // Prevent default form submission behavior
+document.addEventListener('DOMContentLoaded', function() {
+  const getWeatherButton = document.getElementById('getWeatherButton');
+  const cityInput = document.getElementById('cityInput');
+  const weatherDisplay = document.getElementById('weatherDisplay');
   
-    // Get user inputs
-    const bedtime = document.getElementById('bedtime').value;
-    const wakeupTime = document.getElementById('wakeupTime').value;
   
-    // Validate inputs
-    if (!bedtime || !wakeupTime) {
-      alert('Please enter both bedtime and wake-up time.');
-      return;
-    }
+  const API_KEY = 'your_weather_api_key_here';
   
-    // Calculate sleep duration and quality
-    try {
-      const sleepData = calculateSleepDuration(bedtime, wakeupTime);
-  
-      // Display results
-      displayResults(sleepData);
-    } catch (error) {
-      console.error('Error calculating sleep data:', error);
-      alert('An error occurred while calculating sleep data.');
+  getWeatherButton.addEventListener('click', function() {
+    const city = cityInput.value.trim();
+    
+    if (city) {
+      fetchWeather(city);
+    } else {
+      weatherDisplay.innerHTML = '<p class="error">Please enter a city name</p>';
     }
   });
   
-  /**
-   * Function to calculate sleep duration and quality
-   * @param {string} bedtime - Bedtime in HH:MM format
-   * @param {string} wakeupTime - Wake-up time in HH:MM format
-   * @returns {Object} - Sleep data including duration, quality, and recommendations
-   */
-  function calculateSleepDuration(bedtime, wakeupTime) {
-    // Convert times to Date objects
-    const bedtimeDate = new Date(`1970-01-01T${bedtime}:00`);
-    const wakeupTimeDate = new Date(`1970-01-01T${wakeupTime}:00`);
-  
-    // Handle cases where bedtime is after midnight
-    if (bedtimeDate > wakeupTimeDate) {
-      wakeupTimeDate.setDate(wakeupTimeDate.getDate() + 1);
-    }
-  
-    // Calculate sleep duration in hours
-    const sleepDurationMs = wakeupTimeDate - bedtimeDate;
-    const sleepDurationHours = sleepDurationMs / (1000 * 60 * 60);
-  
-    // Determine sleep quality
-    let sleepQuality = '';
-    if (sleepDurationHours >= 8) {
-      sleepQuality = 'Excellent';
-    } else if (sleepDurationHours >= 6) {
-      sleepQuality = 'Good';
-    } else {
-      sleepQuality = 'Poor';
-    }
-  
-    // Generate recommendations
-    let recommendations = '';
-    if (sleepDurationHours < 6) {
-      recommendations = 'Consider going to bed earlier or reducing screen time before bed.';
-    } else if (sleepDurationHours < 8) {
-      recommendations = 'You’re doing well, but aim for at least 8 hours of sleep.';
-    } else {
-      recommendations = 'Great job! Keep maintaining a consistent sleep schedule.';
-    }
-  
-    // Return sleep data as an object
-    return {
-      sleepDuration: sleepDurationHours.toFixed(2),
-      sleepQuality: sleepQuality,
-      recommendations: recommendations,
-    };
+  function fetchWeather(city) {
+    
+    weatherDisplay.innerHTML = '<p>Loading weather data...</p>';
+    
+    
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Weather data not found');
+        }
+        return response.json();
+      })
+      .then(data => {
+        displayWeather(data);
+      })
+      .catch(error => {
+        weatherDisplay.innerHTML = `<p class="error">Error: ${error.message}</p>`;
+      });
   }
   
-  /**
-   * Function to display sleep results on the page
-   * @param {Object} sleepData - Sleep data object containing duration, quality, and recommendations
-   */
-  function displayResults(sleepData) {
-    const resultsContainer = document.getElementById('results');
-  
-    // Clear previous results
-    resultsContainer.innerHTML = '';
-  
-    // Create a result card
-    const resultCard = document.createElement('div');
-    resultCard.classList.add('result-card');
-  
-    resultCard.innerHTML = `
-      <h3>Your Sleep Summary</h3>
-      <p><strong>Sleep Duration:</strong> ${sleepData.sleepDuration} hours</p>
-      <p><strong>Sleep Quality:</strong> ${sleepData.sleepQuality}</p>
-      <p><strong>Recommendations:</strong> ${sleepData.recommendations}</p>
+  function displayWeather(data) {
+    const temperature = data.main.temp;
+    const description = data.weather[0].description;
+    const humidity = data.main.humidity;
+    const city = data.name;
+    
+    weatherDisplay.innerHTML = `
+      <div class="weather-result">
+        <h3>${city} Weather</h3>
+        <p>Temperature: ${temperature}°C</p>
+        <p>Conditions: ${description}</p>
+        <p>Humidity: ${humidity}%</p>
+        <p class="weather-tip">Tip: ${getWeatherSleepTip(temperature, description)}</p>
+      </div>
     `;
-  
-    // Append the result card to the results container
-    resultsContainer.appendChild(resultCard);
   }
+  
+  function getWeatherSleepTip(temperature, description) {
+    // Provide sleep tips based on weather conditions
+    if (temperature > 25) {
+      return "Hot weather can affect sleep quality. Consider using a fan or light bedding.";
+    } else if (temperature < 10) {
+      return "Cold weather typically improves sleep quality. Ensure your room is warm enough.";
+    } else if (description.includes("rain") || description.includes("drizzle")) {
+      return "Rain provides nice background noise for sleep. Consider leaving a window cracked open.";
+    } else {
+      return "Current weather conditions are moderate - good for sleep quality!";
+    }
+  }
+});
