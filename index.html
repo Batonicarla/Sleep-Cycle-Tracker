@@ -25,10 +25,43 @@
 
       <button type="submit" id="calculateButton">Calculate</button>
     </form>
+  </div>   
+  
+  <div class="weather-container">
+    <h2>Local Weather</h2>
+    <div id="weatherInfo">
+      <p>Weather data helps analyze how external conditions affect your sleep.</p>
+
+      <div class="weather-inputs">
+        <input type="text" id="cityInput" placeholder="Enter your city">
+        <button id="getWeatherButton">Get Weather</button>
+      </div>
+      <div id="weatherDisplay"></div>
+    </div>
+</div> 
+  
+  <!-- Results Section -->
+  <div id="results" class="results-container"></div><!-- Results Section -->
+  <h2>Your Sleep Analysis</h2>
+  <div class="results-card">
+    <div class="results-title">Sleep Summary</div>
+    <div class="sleep-stats">
+      <div class="stat-card">
+        <div class="stat-value" id="totalHours">0h</div>
+        <div class="stat-label">Total Sleep</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="cycles">0</div>
+        <div class="stat-label">Sleep Cycles</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="quality">0%</div>
+        <div class="stat-label">Sleep Quality</div>
+      </div>
+    </div>
+    <!-- Sleep advice will be inserted here -->
   </div>
 
-  <!-- Results Section -->
-  <div id="results" class="results-container"></div>
 
   <!-- Footer -->
   <footer class="footer">
@@ -40,6 +73,6 @@
 </body>
 </html>
 
-    
+ 
   
  
